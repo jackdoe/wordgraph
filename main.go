@@ -72,6 +72,10 @@ func main() {
 		c.HTML(http.StatusOK, "test.tmpl", map[string]interface{}{})
 	})
 
+	r.GET("/", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "index.tmpl", map[string]interface{}{})
+	})
+
 	r.Run()
 
 }
