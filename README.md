@@ -5,8 +5,9 @@
 Build a graph of flow of words like "a -> b -> c -> d"
 
 I trained it on 15000 books from project gutenberg, and cutoff the
-edges that are below 75th percentile. (you can find this index in computed_index/)
+edges that are below 85th percentile. (you can find this index in computed_index/)
 
+the thing is also deployed on https://wordgraph.xyz and you can try it at https://wordgraph.xyz/test
 
 ## build an index
 
@@ -44,7 +45,7 @@ The books are stored in .zip files, and we extract the .txt files on the fly, no
 for example if you look at 'this is an apple' vs 'this is a apple':
 
 ```
-$ curl -s -d '{"text":"this is a apple"}' http://localhost:8080/flow | json_pp
+$ curl -s -d '{"text":"this is a apple"}' https://wordgraph.xyz/flow | json_pp
 {
    "Items" : [
       {
@@ -66,7 +67,7 @@ $ curl -s -d '{"text":"this is a apple"}' http://localhost:8080/flow | json_pp
    ]
 }
 
-$ curl -s -d '{"text":"this is an apple"}' http://localhost:8080/flow | json_pp
+$ curl -s -d '{"text":"this is an apple"}' https://wordgraph.xyz/flow | json_pp
 {
    "Items" : [
       {
@@ -94,7 +95,7 @@ $ curl -s -d '{"text":"this is an apple"}' http://localhost:8080/flow | json_pp
 
 ```
 
-$ curl -d '{"text":"apple","percentile":80}' http://localhost:8080/query | json_pp
+$ curl -d '{"text":"apple","percentile":80}' https://wordgraph.xyz/query | json_pp
 {
    "Tokenized" : [
       "apple"
