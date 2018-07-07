@@ -1,0 +1,54 @@
+<textarea id="text" rows=5 cols=50></textarea>
+<br>
+<div id="result">
+</div>
+
+
+
+<div id="mynetwork"></div>
+
+
+<div id="dump">
+</div>
+
+
+<script>
+var res = document.getElementById("result")
+var dump = document.getElementById("dump")
+
+var work = function(query) {
+    if (!query)
+       return;
+
+    res.innerHTML = ''
+    dump.innerHTML = ''
+
+    var container = document.getElementById('mynetwork');
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/flow');
+    xhr.send(JSON.stringify({text:query}));
+    xhr.onreadystatechange = function () {
+       if (xhr.readyState === 4) {
+           if (xhr.status === 200) {
+               var s= [];
+               var data = JSON.parse(xhr.responseText);
+               var i = 0;
+               for (var k of data.Items) {
+                   var minScore = i == 0 ? 2 : 3
+                   var color = k.Score >= minScore ? 'green' : 'black'
+                   s.push('<font color="' + color + '">' + k.Word + '</font>')
+                   i++;
+               }
+               res.innerHTML = s.join(" ")
+           } else {
+               res.innerHTML = "error fetching results, status:" + xhr.status + ", text: " + xhr.responseText
+           }
+       }
+   }
+}
+
+var q = document.getElementById("text")
+q.addEventListener('keyup', function(event) { work(q.value) });
+if (q.value)
+   work(q.value)
+</script>
